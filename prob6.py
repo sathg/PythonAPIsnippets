@@ -46,16 +46,12 @@ def get_movie_rating(jsonText):
             return int(mov['Value'].replace("%",""))
     return 0
 
+
 def get_sorted_recommendations(lsn):
     outRes = []
-    for l in lsn:
-        movLs = get_related_titles(l)
-        for j in movLs:
-            outRes.append([get_movie_rating(get_movie_data(j)), j])
-    return sorted(outRes, key=lambda x: (x[0], x[1]))[::-1]
+    for j in get_related_titles(lsn):
+        outRes.append([get_movie_rating(get_movie_data(j)), j])
+    return [ y[1] for y in sorted(outRes, key=lambda x: (x[0], x[1]))[::-1]]
+
 
 get_sorted_recommendations(["Bridesmaids", "Sherlock Holmes"])
-
-
-permanent_cache_file = "permanent_cache.txt"
-
